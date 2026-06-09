@@ -1,15 +1,24 @@
 <form id="contact-form" class="contact-form" action="https://formspree.io/f/mrevkzwp" method="POST">
   <div class="form-row">
-    <input type="text" name="name" placeholder="Your Name" required />
-    <input type="email" name="email" placeholder="Your Email" required />
+    <input type="text" name="name" placeholder="Your Name" required data-fs-field />
+    <input type="email" name="email" placeholder="Your Email" required data-fs-field />
   </div>
-  <input type="text" name="company" placeholder="Company (optional)" />
+  <input type="text" name="company" placeholder="Company (optional)" data-fs-field />
   <textarea
     name="message"
     placeholder="Tell me about your project, tech stack, and QA needs..."
-    required></textarea>
-  <button type="submit" class="btn-primary form-submit">Send Message</button>
+    required
+    data-fs-field></textarea>
+  <button type="submit" class="btn-primary form-submit" data-fs-submit-btn>Send Message</button>
+  <div data-fs-success class="form-status form-status--success">Message sent! We'll reply within 24h.</div>
+  <div data-fs-error class="form-status form-status--error"></div>
 </form>
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contact-form', formId: 'mrevkzwp' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 <style>
   .contact-form input, .contact-form textarea { width: 100%; padding: 15px 18px;
@@ -23,6 +32,15 @@
   3px var(--accent-dim); background: var(--bg-elevated); } .contact-form
   textarea { resize: vertical; min-height: 130px; } .form-row { display: grid;
   grid-template-columns: 1fr 1fr; gap: 0 12px; margin-bottom: 0; } .form-submit
-  { width: 100%; margin-top: 4px; } @media (max-width: 480px) { .form-row {
-  grid-template-columns: 1fr;   } }
+  { width: 100%; margin-top: 4px; } .form-submit[disabled] { opacity: 0.6;
+  cursor: not-allowed; } @media (max-width: 480px) { .form-row {
+  grid-template-columns: 1fr; } }
+  .form-status { margin-top: 14px; padding: 13px 18px; border-radius:
+  var(--radius-sm); font-size: 0.85rem; font-weight: 500; display: none; }
+  .form-status--success { background: rgba(72, 199, 142, 0.1); color: #48c78e;
+  border: 1px solid rgba(72, 199, 142, 0.2); display: none; }
+  .form-status--error { background: rgba(240, 100, 100, 0.08); color: #f06464;
+  border: 1px solid rgba(240, 100, 100, 0.15); display: none; }
+  [aria-hidden="false"].form-status--success,
+  [aria-hidden="false"].form-status--error { display: block; }
 </style>
